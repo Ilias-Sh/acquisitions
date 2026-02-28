@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # Neon Local - Creates ephemeral database branches
+  neon-local:
+    image: neondatabase/neon_local:latest
+    container_name: acquisitions-neon-local
+    ports:
+      - '5432:5432'
+    env_file:
+      - .env.development
+    networks:
+      - acquisitions-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "neon", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Application service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    container_name: acquisitions-app-dev
+    ports:
+      - '${PORT:-3000}:3000'
+    volumes:
+      # Mount source code for hot reload
+      - ./src:/app/src:ro
+      - ./logs:/app/logs
+    env_file:
+      - .env.development
+    depends_on:
+      neon-local:
+        condition: service_healthy
+    networks:
+      - acquisitions-network
+    command: ["node", "--watch", "src/index.js"]
+    restart: unless-stopped
+
+networks:
+  acquisitions-network:
+    driver: bridge

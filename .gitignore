@@ -1,3 +1,13 @@
 node_modules
 .env
 .env.*
+
+# Neon Local metadata
+.neon_local/
+
+# Logs
+logs/
+*.log
+
+# Docker overrides
+docker-compose.override.yml
