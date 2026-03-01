@@ -41,6 +41,7 @@ This guide explains how to run the Acquisitions API using Docker with different 
 ```
 
 **Key Points:**
+
 - **Neon Local** acts as a proxy that creates ephemeral database branches
 - App connects to `neon-local:5432` inside Docker network
 - Neon Local automatically creates/deletes branches on container start/stop
@@ -71,6 +72,7 @@ This guide explains how to run the Acquisitions API using Docker with different 
 ```
 
 **Key Points:**
+
 - Direct connection to Neon Cloud production database
 - No Neon Local proxy in production
 - Uses connection pooling for optimal performance
@@ -273,6 +275,7 @@ curl http://localhost:3000/health
 ```
 
 Expected response:
+
 ```json
 {
   "status": "OK",
@@ -316,40 +319,44 @@ Expected response:
 
 ### Required Variables
 
-| Variable | Development | Production | Description |
-|----------|-------------|------------|-------------|
-| `NODE_ENV` | `development` | `production` | Node environment |
-| `PORT` | `3000` | `3000` | Server port |
-| `DATABASE_URL` | ✅ | ✅ | Neon database connection string |
-| `NEON_API_KEY` | ✅ | ❌ | Neon API key (for Neon Local) |
-| `NEON_PROJECT_ID` | ✅ | ❌ | Neon project ID (for Neon Local) |
-| `ARCJET_KEY` | ✅ | ✅ | Arcjet security API key |
+| Variable          | Development   | Production   | Description                      |
+| ----------------- | ------------- | ------------ | -------------------------------- |
+| `NODE_ENV`        | `development` | `production` | Node environment                 |
+| `PORT`            | `3000`        | `3000`       | Server port                      |
+| `DATABASE_URL`    | ✅            | ✅           | Neon database connection string  |
+| `NEON_API_KEY`    | ✅            | ❌           | Neon API key (for Neon Local)    |
+| `NEON_PROJECT_ID` | ✅            | ❌           | Neon project ID (for Neon Local) |
+| `ARCJET_KEY`      | ✅            | ✅           | Arcjet security API key          |
 
 ### Optional Variables
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `LOG_LEVEL` | `info` | Log level (debug, info, warn, error) |
+| Variable    | Default | Description                          |
+| ----------- | ------- | ------------------------------------ |
+| `LOG_LEVEL` | `info`  | Log level (debug, info, warn, error) |
 
 ### Getting Your Credentials
 
 #### Neon API Key
+
 1. Go to: https://console.neon.tech/app/settings/api-keys
 2. Click "Generate new API key"
 3. Copy the key (only shown once!)
 
 #### Neon Project ID
+
 1. Go to your Neon project dashboard
 2. Click "Project settings"
 3. Copy the Project ID from the "General" section
 
 #### Database URL
+
 1. Go to your Neon project dashboard
 2. Click "Connection Details"
 3. Copy the connection string
 4. **For production**: Use the "Pooled connection" string
 
 #### Arcjet Key
+
 1. Go to: https://app.arcjet.com
 2. Create a new site
 3. Copy your API key
@@ -391,6 +398,7 @@ docker-compose -f docker-compose.dev.yml --env-file .env.development.local run -
 **Issue**: Container exits immediately
 
 **Solution**:
+
 ```powershell
 # Check logs
 docker-compose -f docker-compose.dev.yml logs app
@@ -406,13 +414,16 @@ docker-compose -f docker-compose.dev.yml logs app
 **Issue**: `ECONNREFUSED neon-local:5432`
 
 **Solutions**:
+
 1. Ensure Neon Local container is healthy:
+
    ```powershell
    docker ps
    # Look for "healthy" status
    ```
 
 2. Check Neon Local logs:
+
    ```powershell
    docker logs acquisitions-neon-local
    ```
@@ -426,7 +437,9 @@ docker-compose -f docker-compose.dev.yml logs app
 **Issue**: Code changes not reflected
 
 **Solutions**:
+
 1. Check volume mount in `docker-compose.dev.yml`:
+
    ```yaml
    volumes:
      - ./src:/app/src:ro
@@ -442,6 +455,7 @@ docker-compose -f docker-compose.dev.yml logs app
 **Issue**: `Error: address already in use`
 
 **Solution**:
+
 ```powershell
 # Find process using port 3000
 netstat -ano | findstr :3000
@@ -458,6 +472,7 @@ PORT=3001
 **Issue**: Neon Local fails to create branch
 
 **Checklist**:
+
 - [ ] Valid `NEON_API_KEY`
 - [ ] Valid `NEON_PROJECT_ID`
 - [ ] API key has required permissions
@@ -469,6 +484,7 @@ PORT=3001
 **Issue**: Production app can't connect to database
 
 **Checklist**:
+
 - [ ] Using pooled connection string (with `-pooler`)
 - [ ] Connection string includes `?sslmode=require`
 - [ ] Database is not paused (Neon auto-pauses after inactivity)
@@ -479,6 +495,7 @@ PORT=3001
 **Issue**: Native module build errors
 
 **Solution**: The Dockerfile already includes build tools. If issues persist:
+
 ```dockerfile
 # Dockerfile already has:
 RUN apk add --no-cache python3 make g++
@@ -498,6 +515,7 @@ RUN apk add --no-cache python3 make g++
 ## Support
 
 For issues specific to:
+
 - **Docker setup**: Check this guide and Docker logs
 - **Neon Database**: https://neon.tech/docs
 - **Arcjet**: https://docs.arcjet.com/

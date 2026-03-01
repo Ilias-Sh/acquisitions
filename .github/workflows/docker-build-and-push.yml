@@ -30,7 +30,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKER_USERNAME }}/kubernetes-demo-api:latest
+          images: ${{ secrets.DOCKER_USERNAME }}/kubernetes-demo-api
           tags: |
             type=ref,event=branch
             type=sha,prefix=
@@ -52,7 +52,7 @@ jobs:
         run: |
           echo "## Docker Image Published 🐳" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Image:** \`${{ secrets.DOCKER_USERNAME }}/acquisitions\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Image:** \`${{ secrets.DOCKER_USERNAME }}/kubernetes-demo-api\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Tags" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY

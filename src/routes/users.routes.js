@@ -1,4 +1,9 @@
-import { fetchAllUsers, fetchUserById, updateUser, deleteUser } from '#controllers/users.controller.js';
+import {
+  fetchAllUsers,
+  fetchUserById,
+  updateUser,
+  deleteUser,
+} from '#controllers/users.controller.js';
 import authMiddleware from '#middleware/auth.middleware.js';
 import express from 'express';
 

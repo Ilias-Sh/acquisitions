@@ -7,7 +7,9 @@ const authMiddleware = (req, res, next) => {
     const token = cookies.get(req, 'token');
 
     if (!token) {
-      return res.status(401).json({ error: 'Unauthorized', message: 'No access token provided' });
+      return res
+        .status(401)
+        .json({ error: 'Unauthorized', message: 'No access token provided' });
     }
 
     const decoded = jwttoken.verify(token);
@@ -17,7 +19,9 @@ const authMiddleware = (req, res, next) => {
     next();
   } catch (e) {
     logger.error('Auth middleware error', e);
-    return res.status(401).json({ error: 'Unauthorized', message: 'Invalid or expired token' });
+    return res
+      .status(401)
+      .json({ error: 'Unauthorized', message: 'Invalid or expired token' });
   }
 };
 
