@@ -30,7 +30,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKER_USERNAME }}/acquisitions-app:latest
+          images: ${{ secrets.DOCKER_USERNAME }}/acquisitions-app
           tags: |
             type=ref,event=branch
             type=sha,prefix=
