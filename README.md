@@ -312,7 +312,6 @@ This repo demonstrates:
 
 ## TODO
 
-- [ ] Add `.env.example` with all variable names and safe placeholders.
 - [ ] Add integration/API tests for `/api/auth/*` and `/api/users/*` (auth, roles, validation).
 - [ ] Fix typo in `scripts/dev.sh`: printed URL says `5173`; app runs on `PORT` (default `3000`).
 - [ ] (Optional) Fix typo in security middleware responses: `"Frobidden"` → `"Forbidden"`.
